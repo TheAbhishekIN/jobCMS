@@ -119,7 +119,7 @@ return [
     |
     */
 
-    'key' => 'SomeRandomStringWith32Characters',,
+    'key' => 'SomeRandomStringWith32Characters',
 
     'cipher' => 'AES-256-CBC',
 
