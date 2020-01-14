@@ -142,7 +142,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-xl-12">
-                    © 2019 <strong>JobFinder</strong>. All Rights Reserved.  A Project made with <i class="icon-material-outline-favorite" style="color: #f51212;"></i> By <a href="https://theabhishek.in" target="_blank">Abhishek Sharma</a>
+                    © 2019 <strong>JobFinder</strong>. All Rights Reserved.  A Project made with <i class="icon-material-outline-favorite" style="color: #f51212;"></i> By <a href="https://softprogrammers.com" target="_blank">SoftProgrammers</a>
                 </div>
             </div>
         </div>

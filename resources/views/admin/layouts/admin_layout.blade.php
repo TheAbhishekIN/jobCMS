@@ -32,7 +32,7 @@
 			<div class="dashboard-footer-spacer"></div>
 			<div class="small-footer margin-top-15">
 				<div class="small-footer-copyrights">
-					© 2019 <strong>Find Freelancer</strong>. All Rights Reserved. A Project made with <i class="icon-material-outline-favorite" style="color: #f51212;"></i> By <a href="https://onedeveloperarmy.com" target="_blank">One Developer Army</a>
+					© 2019 <strong>Find Freelancer</strong>. All Rights Reserved. A Project made with <i class="icon-material-outline-favorite" style="color: #f51212;"></i> By <a href="https://softprogrammers.com" target="_blank">SoftProgrammers</a>
 				</div>
 				<ul class="footer-social-links">
 					<li>

@@ -96,7 +96,7 @@
                     <!-- Category Box -->
                     @foreach ($job_categories as $job_category)
                         
-                    <a href="jobs-grid-layout-full-page.html" class="category-box">
+                    <a href="#" class="category-box">
                         <div class="category-box-icon">
                             <i class="{{$job_category['icon']}}"></i>
                         </div>
@@ -190,7 +190,7 @@
 
             @foreach ($featured_city as $key=> $city)
             <div class="col-xl-3 col-md-6">
-                <a href="jobs-list-layout-1.html" class="photo-box" data-background-image="images/featured-city-0{{$key+1}}.jpg">
+                <a href="#" class="photo-box" data-background-image="images/featured-city-0{{$key+1}}.jpg">
                     <div class="photo-box-content">
                     <h3>{{ $city['city']}}</h3>
                         <span>{{ $city['jobs'] }} Jobs</span>
@@ -286,7 +286,7 @@
                                 <li>Highlighted in Search Results</li>
                             </ul>
                         </div>
-                        <a href="pages-checkout-page.html" class="button full-width margin-top-20">Buy Now</a>
+                        <a href="#" class="button full-width margin-top-20">Buy Now</a>
                     </div>
 
                     <!-- Plan -->
@@ -304,7 +304,7 @@
                                 <li>Highlighted in Search Results</li>
                             </ul>
                         </div>
-                        <a href="pages-checkout-page.html" class="button full-width margin-top-20">Buy Now</a>
+                        <a href="#" class="button full-width margin-top-20">Buy Now</a>
                     </div>
 
                     <!-- Plan -->
@@ -321,7 +321,7 @@
                                 <li>Highlighted in Search Results</li>
                             </ul>
                         </div>
-                        <a href="pages-checkout-page.html" class="button full-width margin-top-20">Buy Now</a>
+                        <a href="#" class="button full-width margin-top-20">Buy Now</a>
                     </div>
                 </div>
 
