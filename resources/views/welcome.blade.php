@@ -23,35 +23,35 @@
         
         <!-- Search Bar -->
         <div class="row">
-                <form action="{{route('job_listing')}}" method="GET">
-                    {{-- @csrf --}}
-            <div class="col-md-12">
-                <div class="intro-banner-search-form margin-top-95">
-                
-                
-                    <!-- Search Field -->
-                    <div class="intro-search-field with-autocomplete">
-                        <label for="autocomplete-input" class="field-title ripple-effect">Where?</label>
-                        <div class="input-with-icon">
-                            <input id="autocomplete-input" type="text" name="location" placeholder="Online Job">
-                            <i class="icon-material-outline-location-on"></i>
+            <form action="{{route('job_listing')}}" method="GET">
+                {{-- @csrf --}}
+                <div class="col-md-12">
+                    <div class="intro-banner-search-form margin-top-95">
+
+
+                        <!-- Search Field -->
+                        <div class="intro-search-field with-autocomplete">
+                            <label for="autocomplete-input" class="field-title ripple-effect">Where?</label>
+                            <div class="input-with-icon">
+                                <input id="autocomplete-input" type="text" name="location" placeholder="Online Job">
+                                <i class="icon-material-outline-location-on"></i>
+                            </div>
                         </div>
-                    </div>
 
-                    <!-- Search Field -->
-                    <div class="intro-search-field">
-                        <label for ="intro-keywords" class="field-title ripple-effect">What job you want?</label>
-                        <input id="intro-keywords" type="text" name="type" placeholder="Job Title or Keywords">
-                    </div>
+                        <!-- Search Field -->
+                        <div class="intro-search-field">
+                            <label for ="intro-keywords" class="field-title ripple-effect">What job you want?</label>
+                            <input id="intro-keywords" type="text" name="job_title" placeholder="Job Title or Keywords">
+                        </div>
 
-                    <!-- Button -->
-                    <div class="intro-search-button">
-                        <button class="button ripple-effect" onclick="window.location.href='jobs-list-layout-full-page-map.html'">Search</button>
+                        <!-- Button -->
+                        <div class="intro-search-button">
+                            <button class="button ripple-effect" type="submit">Search</button>
+                        </div>
+
                     </div>
-                
                 </div>
-            </div>
-        </form>
+            </form>
         </div>
 
         <!-- Stats -->
@@ -95,8 +95,7 @@
 
                     <!-- Category Box -->
                     @foreach ($job_categories as $job_category)
-                        
-                    <a href="#" class="category-box">
+                    <a href="{{ route('job_listing').'?cat='.$job_category['category_id'] }}" class="category-box">
                         <div class="category-box-icon">
                             <i class="{{$job_category['icon']}}"></i>
                         </div>
@@ -132,9 +131,8 @@
                 <!-- Jobs Container -->
                 <div class="listings-container compact-list-layout margin-top-35">
                     @foreach ($jobs as $job)
-                   
                     <!-- Job Listing -->
-                    <a href="#" class="job-listing with-apply-button">
+                    <a href="{{ route('single_job',$job->job_id) }}" class="job-listing with-apply-button">
 
                         <!-- Job Listing Details -->
                         <div class="job-listing-details">
@@ -190,7 +188,7 @@
 
             @foreach ($featured_city as $key=> $city)
             <div class="col-xl-3 col-md-6">
-                <a href="#" class="photo-box" data-background-image="images/featured-city-0{{$key+1}}.jpg">
+                <a href="{{ route('job_listing').'?city='.$city['city'] }}" class="photo-box" data-background-image="images/featured-city-0{{$key+1}}.jpg">
                     <div class="photo-box-content">
                     <h3>{{ $city['city']}}</h3>
                         <span>{{ $city['jobs'] }} Jobs</span>
@@ -223,7 +221,7 @@
                     <div class="companies-list">
                     @foreach ($companies as $company )
                        
-                        <a href="#" class="company">
+                        <a href="{{ route('company_profile',$company->company_id)}}" class="company">
                             <div class="company-inner-alignment">
                                 <span class="company-logo"><img src="{{asset($company->company_profile)}}" alt=""></span>
                                 <h4>{{$company->company_name}}</h4>

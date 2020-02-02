@@ -2644,7 +2644,12 @@ em.mm-counter+a.mm-fullsubopen+span {
 .pagination .active {
 	background-color: #2a41e8;
 	color: #fff;
-	box-shadow: 0 2px 8px rgba(102,103,107,0.25)
+	box-shadow: 0 2px 8px rgba(102,103,107,0.25);
+	border-radius: 4px;
+	width: 44px;
+	height: 44px;
+	padding: 0;
+	line-height: 44px;
 }
 /*.pagination .active:hover {
 	background-color: #333;

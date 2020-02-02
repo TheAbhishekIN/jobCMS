@@ -13,7 +13,6 @@ class PortalController extends Controller
                                 ->get();
 
 
-
         $_category_icon = array(
             1=>'icon-line-awesome-file-code-o',
             2=>'icon-line-awesome-cloud-upload',
@@ -31,6 +30,7 @@ class PortalController extends Controller
                                     ->where('job_category_id',$category->id)
                                     ->count();
 
+                $_job_categories[$category->id]['category_id'] = $category->id; 
                 $_job_categories[$category->id]['total_jobs'] = $_total_jobs; 
                 $_job_categories[$category->id]['title'] = $category->job_category; 
                 $_job_categories[$category->id]['desc'] = $category->description; 
@@ -39,7 +39,7 @@ class PortalController extends Controller
         }
 
         $_jobs = DB::table('job_posts')
-                            ->select('job_posts.*','job_locations.city','job_locations.country','companies.company_name','companies.company_profile')
+                            ->select('job_posts.*','job_posts.id as job_id','job_locations.city','job_locations.country','companies.company_name','companies.company_profile')
                             ->where('is_active',1)
                             ->join('companies', 'job_posts.company_id','=','companies.id')
                             ->join('job_locations', 'job_posts.job_location_id','=','job_locations.id')
@@ -78,7 +78,7 @@ class PortalController extends Controller
 
 
             $_companies = DB::table('companies')
-                        ->select('companies.company_name','companies.company_profile','job_locations.city','job_locations.country')
+                        ->select('companies.company_name','companies.id as company_id','companies.company_profile','job_locations.city','job_locations.country')
                         ->where('status',1)
                          ->join('job_locations','companies.location_id','=','job_locations.id')
                         ->limit(3)
@@ -101,24 +101,104 @@ class PortalController extends Controller
     }
 
     public function job_listing(){
-        // echo $_GET['location'];
-        // echo $_GET['type'];
-        // pr('Hello World');
 
+        // pr($_GET);exit;
+       
+        #Get All job categories for job listing page
         $_job_categories = DB::table('job_categories')->select('job_categories.job_category','job_categories.id')->get();
+         #END Get All job categories for job listing page
 
-        $_jobs = DB::table('job_posts')
-                    ->select('job_posts.*','job_locations.city','job_locations.country','companies.company_profile','companies.company_name')
-                    ->where('is_active',1)
-                    ->join('job_locations','job_posts.job_location_id','=','job_locations.id')
-                    ->join('companies','job_posts.company_id','=','companies.id')
-                    ->paginate(5);
+        #Simple Job posts showing on lending page
+            $_jobs = DB::table('job_posts')
+                   ->select('job_posts.*','job_locations.city','job_locations.country','companies.company_profile','companies.company_name')
+                   ->where('is_active',1)
+                   ->join('job_locations','job_posts.job_location_id','=','job_locations.id')
+                   ->join('companies','job_posts.company_id','=','companies.id')
+                   ->paginate(15);
+        #END Simple Job posts showing on lending page         
 
-                    // pr($_jobs);exit;
+        #Search from landing page header
+        if (isset($_GET['location']) && $_GET['location']!='' || isset($_GET['job_title']) && $_GET['job_title']!='') {
+
+                    $_location_ids = DB::table('job_locations')
+                    ->select('id')
+                    ->where('city',trim($_GET['location']))
+                    ->get();
+                    $_loc_id =  array();
+                    foreach ($_location_ids as $_location_id) {
+                        $_loc_id[] = $_location_id->id;
+                    }
+                    $_job_title = '';
+                    if (isset($_GET['job_title']) && $_GET['job_title']!='') {
+                        $_job_title = $_GET['job_title'];
+                        
+                    } 
+                    if (!empty($_loc_id)) {
+                        $_jobs = DB::table('job_posts') 
+                        ->select('job_posts.*','job_locations.city','job_locations.country','companies.company_profile','companies.company_name') 
+                        ->where('job_location_id',$_loc_id) 
+                        ->orWhere('job_title','LIKE','%'.$_job_title.'%') 
+                        ->join('job_locations','job_posts.job_location_id','=','job_locations.id') 
+                        ->join('companies','job_posts.company_id','=','companies.id') 
+                        ->paginate(15); 
+                    }else{
+                              $_jobs = DB::table('job_posts') 
+                        ->select('job_posts.*','job_locations.city','job_locations.country','companies.company_profile','companies.company_name') 
+                        ->where('job_title','LIKE','%'.$_job_title.'%') 
+                        ->join('job_locations','job_posts.job_location_id','=','job_locations.id') 
+                        ->join('companies','job_posts.company_id','=','companies.id') 
+                        ->paginate(15); 
+
+                    }
+
+                }
+        #END Search from landing page header
+
+
+        #Search from landing page featured cities
+            if (isset($_GET['city']) && $_GET['city']!='') {
+                $_location_ids = DB::table('job_locations')
+                                    ->select('id')
+                                    ->where('city',trim($_GET['city']))
+                                    ->get();
+                $_loc_id =  array();
+                foreach ($_location_ids as $_location_id) {
+                    $_loc_id[] = $_location_id->id;
+                }
+
+                 $_jobs = DB::table('job_posts')
+                           ->select('job_posts.*','job_locations.city','job_locations.country','companies.company_profile','companies.company_name')
+                           ->where('job_location_id',$_loc_id)
+                           ->join('job_locations','job_posts.job_location_id','=','job_locations.id')
+                           ->join('companies','job_posts.company_id','=','companies.id')
+                           ->paginate(15);
+
+            }
+        #END Search from landing page featured cities
+
+        #Search from landing page Popular Job Categories
+            if (isset($_GET['cat']) && $_GET['cat']!='') {
+              
+               $_cond = array(
+                'is_active'=>1,
+                'job_category_id'=>$_GET['cat'],
+               );
+               $_jobs = DB::table('job_posts')
+                           ->select('job_posts.*','job_locations.city','job_locations.country','companies.company_profile','companies.company_name')
+                           ->where($_cond)
+                           ->join('job_locations','job_posts.job_location_id','=','job_locations.id')
+                           ->join('companies','job_posts.company_id','=','companies.id')
+                           ->simplePaginate(15);
+            }
+       #END Search from landing page Popular Job Categories
+
+        #Create Array for display job categories and jobs listing   
         $_compact = array(
             'job_categories'=>$_job_categories,
             'jobs'=>$_jobs
         );
+        #END Create Array for display job categories and jobs listing   
+
         return view('job_listing',$_compact);
     }
 
